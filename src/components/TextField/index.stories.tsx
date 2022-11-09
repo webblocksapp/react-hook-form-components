@@ -1,7 +1,7 @@
 import { TextField } from '@components';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import * as yup from 'yup';
 
 export default {
@@ -33,17 +33,21 @@ export const UsingHookForm = () => {
 
   return (
     <form onSubmit={handleSubmit(submit)}>
-      <TextField label="Name" control={control} name="name" />
-      <TextField label="Email" control={control} name="email" />
-      <Button variant="contained" type="submit">
-        Submit
-      </Button>
-      <Button variant="contained" onClick={fill}>
-        Fill
-      </Button>
-      <Button variant="contained" onClick={() => reset(schema1.getDefault())}>
-        Reset
-      </Button>
+      <Stack spacing={2}>
+        <TextField label="Name" control={control} name="name" />
+        <TextField label="Email" control={control} name="email" />
+        <Stack spacing={2} direction="row">
+          <Button variant="contained" type="submit">
+            Submit
+          </Button>
+          <Button variant="contained" onClick={fill}>
+            Fill
+          </Button>
+          <Button variant="contained" onClick={() => reset(schema1.getDefault())}>
+            Reset
+          </Button>
+        </Stack>
+      </Stack>
     </form>
   );
 };

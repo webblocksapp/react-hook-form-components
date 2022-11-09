@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  FormGroup,
   FormHelperText,
   TextField as MuiTextField,
   TextFieldProps as MuiTextFieldProps,
@@ -41,14 +42,14 @@ export const TextField: React.FC<TextFieldProps> = ({ control, errorMessage, ...
   }, [controller?.field?.value, rest.value]);
 
   return (
-    <>
+    <FormGroup>
       <MuiTextField {...rest} value={value} onChange={onChange} onBlur={onBlur} error={error} />
       {error && (
         <FormHelperText error={error}>
           {errorMessage || controller?.fieldState?.error?.message}
         </FormHelperText>
       )}
-    </>
+    </FormGroup>
   );
 };
 TextField.defaultProps = {

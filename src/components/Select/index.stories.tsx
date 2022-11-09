@@ -1,7 +1,7 @@
 import { Select } from '@components';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import * as yup from 'yup';
 
 export default {
@@ -33,35 +33,39 @@ export const UsingHookForm = () => {
 
   return (
     <form onSubmit={handleSubmit(submit)}>
-      <Select
-        label="Country"
-        control={control}
-        name="country"
-        options={[
-          { value: 1, label: 'México' },
-          { value: 2, label: 'EEUU' },
-          { value: 3, label: 'Colombia' },
-        ]}
-      />
-      <Select
-        label="City"
-        control={control}
-        name="city"
-        options={[
-          { value: 1, label: 'Ciudad de México' },
-          { value: 2, label: 'Washington DC' },
-          { value: 3, label: 'Bogotá' },
-        ]}
-      />
-      <Button variant="contained" type="submit">
-        Submit
-      </Button>
-      <Button variant="contained" onClick={fill}>
-        Fill
-      </Button>
-      <Button variant="contained" onClick={() => reset(schema1.getDefault())}>
-        Reset
-      </Button>
+      <Stack spacing={2}>
+        <Select
+          label="Country"
+          control={control}
+          name="country"
+          options={[
+            { value: 1, label: 'México' },
+            { value: 2, label: 'EEUU' },
+            { value: 3, label: 'Colombia' },
+          ]}
+        />
+        <Select
+          label="City"
+          control={control}
+          name="city"
+          options={[
+            { value: 1, label: 'Ciudad de México' },
+            { value: 2, label: 'Washington DC' },
+            { value: 3, label: 'Bogotá' },
+          ]}
+        />
+        <Stack direction="row" spacing={2}>
+          <Button variant="contained" type="submit">
+            Submit
+          </Button>
+          <Button variant="contained" onClick={fill}>
+            Fill
+          </Button>
+          <Button variant="contained" onClick={() => reset(schema1.getDefault())}>
+            Reset
+          </Button>
+        </Stack>
+      </Stack>
     </form>
   );
 };

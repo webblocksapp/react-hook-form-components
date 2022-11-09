@@ -6,6 +6,7 @@ import {
   FormControl,
   InputLabel,
   FormHelperText,
+  FormGroup,
 } from '@mui/material';
 import { Control, useController } from 'react-hook-form';
 
@@ -45,21 +46,23 @@ export const Select: React.FC<SelectProps> = ({ control, errorMessage, options, 
   }, [controller?.field?.value, rest.value]);
 
   return (
-    <FormControl fullWidth={rest.fullWidth}>
-      <InputLabel error={error}>{rest.label}</InputLabel>
-      <MuiSelect {...rest} value={value} error={error} onChange={onChange} onBlur={onBlur}>
-        {options.map((item, index) => (
-          <MenuItem key={index} value={item.value} selected={item.value == value}>
-            {item.label}
-          </MenuItem>
-        ))}
-      </MuiSelect>
+    <FormGroup>
+      <FormControl fullWidth={rest.fullWidth}>
+        <InputLabel error={error}>{rest.label}</InputLabel>
+        <MuiSelect {...rest} value={value} error={error} onChange={onChange} onBlur={onBlur}>
+          {options.map((item, index) => (
+            <MenuItem key={index} value={item.value} selected={item.value == value}>
+              {item.label}
+            </MenuItem>
+          ))}
+        </MuiSelect>
+      </FormControl>
       {error && (
         <FormHelperText error={error}>
           {errorMessage || controller?.fieldState?.error?.message}
         </FormHelperText>
       )}
-    </FormControl>
+    </FormGroup>
   );
 };
 Select.defaultProps = {
