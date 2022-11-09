@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Select as MuiSelect,
+  SelectProps as MuiSelectProps,
+  MenuItem,
+  FormControl,
+  InputLabel,
   FormHelperText,
-  TextField as MuiTextField,
-  TextFieldProps as MuiTextFieldProps,
 } from '@mui/material';
 import { Control, useController } from 'react-hook-form';
 
-export type TextFieldProps = MuiTextFieldProps & {
+export interface SelectProps extends MuiSelectProps {
   control?: Control<any>;
   errorMessage?: string;
-};
+  options?: Array<{ value: string | number; label: string }>;
+}
 
-export const TextField: React.FC<TextFieldProps> = ({ control, errorMessage, ...rest }) => {
+export const Select: React.FC<SelectProps> = ({ control, errorMessage, options, ...rest }) => {
   const [error, setError] = useState<boolean>(false);
-  const [value, setValue] = useState<TextFieldProps['value']>('');
+  const [value, setValue] = useState<SelectProps['value']>('');
   const controller =
     control &&
     useController({
@@ -22,12 +26,12 @@ export const TextField: React.FC<TextFieldProps> = ({ control, errorMessage, ...
       defaultValue: rest.value,
     });
 
-  const onChange: TextFieldProps['onChange'] = (event) => {
+  const onChange: SelectProps['onChange'] = (event, child) => {
     controller?.field?.onChange(event);
-    rest?.onChange?.(event);
+    rest?.onChange?.(event, child);
   };
 
-  const onBlur: TextFieldProps['onBlur'] = (event) => {
+  const onBlur: SelectProps['onBlur'] = (event) => {
     controller?.field?.onBlur();
     rest?.onBlur?.(event);
   };
@@ -41,16 +45,23 @@ export const TextField: React.FC<TextFieldProps> = ({ control, errorMessage, ...
   }, [controller?.field?.value, rest.value]);
 
   return (
-    <>
-      <MuiTextField {...rest} value={value} onChange={onChange} onBlur={onBlur} error={error} />
+    <FormControl fullWidth={rest.fullWidth}>
+      <InputLabel error={error}>{rest.label}</InputLabel>
+      <MuiSelect {...rest} value={value} error={error} onChange={onChange} onBlur={onBlur}>
+        {options.map((item, index) => (
+          <MenuItem key={index} value={item.value} selected={item.value == value}>
+            {item.label}
+          </MenuItem>
+        ))}
+      </MuiSelect>
       {error && (
         <FormHelperText error={error}>
           {errorMessage || controller?.fieldState?.error?.message}
         </FormHelperText>
       )}
-    </>
+    </FormControl>
   );
 };
-TextField.defaultProps = {
+Select.defaultProps = {
   fullWidth: true,
 };
